@@ -50,7 +50,7 @@ class BaseFilter(object):
         >>> Filters.text & (~ Filters.forwarded)
 
     Note:
-        Filters use the same short circuiting logic that pythons `and`, `or` and `not`.
+        Filters use the same short circuiting logic as python's `and`, `or` and `not`.
         This means that for example:
 
             >>> Filters.regex(r'(a?x)') | Filters.regex(r'(b?x)')
@@ -368,7 +368,7 @@ class Filters(object):
             if you need to specify flags on your pattern.
 
         Note:
-            Filters use the same short circuiting logic that pythons `and`, `or` and `not`.
+            Filters use the same short circuiting logic as python's `and`, `or` and `not`.
             This means that for example:
 
                 >>> Filters.regex(r'(a?x)') | Filters.regex(r'(b?x)')
@@ -844,6 +844,15 @@ officedocument.wordprocessingml.document")``-
     group = _Group()
     """Messages sent in a group chat."""
 
+    class _Channel(BaseFilter):
+        name = 'Filters.channel'
+
+        def filter(self, message):
+            return message.chat.type == Chat.CHANNEL
+
+    channel = _Channel()
+    """Messages sent in a channel."""
+
     class user(BaseFilter):
         """Filters messages to allow only those which are from specified user ID.
 
@@ -1043,6 +1052,14 @@ officedocument.wordprocessingml.document")``-
                 return update.channel_post is not None or update.edited_channel_post is not None
 
         channel_posts = _ChannelPosts()
+
+        class _Redirect(BaseFilter):
+            update_filter = True
+
+            def filter(self, update):
+                return update.redirect is not None
+
+        redirect = _Redirect()
 
         def filter(self, update):
             return self.messages(update) or self.channel_posts(update)

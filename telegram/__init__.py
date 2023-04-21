@@ -50,6 +50,7 @@ from .parsemode import ParseMode
 from .messageentity import MessageEntity
 from .games.game import Game
 from .poll import Poll, PollOption, PollAnswer
+from .redirect import Redirect
 from .loginurl import LoginUrl
 from .games.callbackgame import CallbackGame
 from .payment.shippingaddress import ShippingAddress
@@ -157,5 +158,5 @@ __all__ = [
     'InputMediaAudio', 'InputMediaDocument', 'TelegramDecryptionError',
     'PassportElementErrorSelfie', 'PassportElementErrorTranslationFile',
     'PassportElementErrorTranslationFiles', 'PassportElementErrorUnspecified', 'Poll',
-    'PollOption', 'PollAnswer', 'LoginUrl', 'KeyboardButton', 'KeyboardButtonPollType',
+    'PollOption', 'PollAnswer', 'LoginUrl', 'KeyboardButton', 'KeyboardButtonPollType', 'Redirect',
 ]

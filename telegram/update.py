@@ -74,6 +74,7 @@ class Update(TelegramObject):
         poll_answer (:class:`telegram.PollAnswer`, optional): A user changed their answer
             in a non-anonymous poll. Bots receive new votes only in polls that were sent
             by the bot itself.
+        redirect (:class:`telegram.Redirect`, optional): User redirect
         **kwargs (:obj:`dict`): Arbitrary keyword arguments.
 
     """
@@ -91,6 +92,7 @@ class Update(TelegramObject):
                  pre_checkout_query=None,
                  poll=None,
                  poll_answer=None,
+                 redirect=None,
                  **kwargs):
         # Required
         self.update_id = int(update_id)
@@ -105,6 +107,7 @@ class Update(TelegramObject):
         self.channel_post = channel_post
         self.edited_channel_post = edited_channel_post
         self.poll = poll
+        self.redirect = redirect
         self.poll_answer = poll_answer
 
         self._effective_user = None
@@ -149,6 +152,9 @@ class Update(TelegramObject):
         elif self.poll_answer:
             user = self.poll_answer.user
 
+        elif self.redirect:
+            user = self.redirect.from_user
+
         self._effective_user = user
         return user
 
@@ -181,6 +187,9 @@ class Update(TelegramObject):
 
         elif self.edited_channel_post:
             chat = self.edited_channel_post.chat
+
+        elif self.redirect:
+            chat = self.redirect.chat
 
         self._effective_chat = chat
         return chat
